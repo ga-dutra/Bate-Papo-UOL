@@ -3,6 +3,7 @@ body {
 }
 
 .topo {
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -10,7 +11,7 @@ body {
   height: 80px;
   background-color: #ffffff;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
-  margin-bottom: 28px;
+  z-index: 5;
 }
 
 .topo img {
@@ -32,11 +33,12 @@ footer {
   z-index: 5;
   display: flex;
   align-items: center;
+  margin-top: 200px;
 }
 
 footer textarea {
   font-family: "Roboto", sans-serif;
-  width: 300px;
+  width: calc(100% - 80px);
   height: 40px;
   border: 0;
   margin-left: 17px;
@@ -71,6 +73,10 @@ footer ion-icon {
   position: absolute;
   top: 25px;
   right: 21px;
+}
+
+footer ion-icon:hover {
+  cursor: pointer;
 }
 
 .conteudo li {
@@ -199,4 +205,18 @@ footer,
   background-color: #e7e7e7;
   font-family: 18px;
   color: #696969;
+}
+li :nth-last-child() {
+}
+
+.conteudo li {
+  position: relative;
+  top: 100px;
+  bottom: 1000px;
+}
+
+.completa_margem {
+  width: 100%;
+  height: 100px;
+  margin: 44px 0;
 }
