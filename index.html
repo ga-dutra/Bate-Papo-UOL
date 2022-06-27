@@ -25,48 +25,47 @@
       <p> Entrando...</p>
     </div>
   </div>
+  <div>
+    <div class="pagina escondido">
+      <div onclick="fechaSideBar()" class="zona_cinza"></div>
+      <div class="topo">
+        <img src="./arquivos/logo2.png" alt="Logo uol">
+        <ion-icon onclick="abreSideBar()" name="people"></ion-icon>
+      </div>
 
-  <div class="pagina escondido">
-    <div class="topo">
-      <img src="./arquivos/logo2.png" alt="Logo uol">
-      <ion-icon name="people"></ion-icon>
-    </div>
+      <div class="conteudo_container">
+        <ul class="conteudo">
 
-    <div class="conteudo_container">
-      <ul class="conteudo">
-
-      </ul>
+        </ul>
+      </div>
     </div>
     <div class="menu_envio escondido">
       <h2>Escolha um contato para enviar mensagem:</h2>
       <ul class="lista_participantes">
-        <div>
-          <ion-icon name="people"></ion-icon> Todos
-        </div>
-        <div>
-          <ion-icon name="person-circle"></ion-icon> Marcos
-        </div>
-
       </ul>
       <p>Escolha a visibilidade:</p>
       <ul class="visibilidade">
-        <li>
-          <div>
-            <ion-icon name="lock-open"></ion-icon> Público
+        <li class="publico">
+          <div class="sem_check" onclick="checkVisibilidade(this)">
+            <ion-icon name="lock-open"></ion-icon> <span>Público</span>
+            <ion-icon class="checkmark" name="checkmark"></ion-icon>
           </div>
         </li>
-        <li>
-          <div>
-            <ion-icon name="lock-closed"></ion-icon> Reservadamente
+        <li class="reservadamente">
+          <div class="sem_check" onclick="checkVisibilidade(this)">
+            <ion-icon name="lock-closed"></ion-icon> <span>Reservadamente</span>
+            <ion-icon class="checkmark" name="checkmark"></ion-icon>
           </div>
         </li>
       </ul>
     </div>
-
-    <footer class="mensagem_container">
-      <textarea name="mensagem" class="mensagem" placeholder="Escreva aqui..." cols="30" rows="10"></textarea>
-      <ion-icon onclick="enviaMensagem()" name="paper-plane-outline"></ion-icon>
-    </footer>
+    <div>
+      <footer class="mensagem_container escondido">
+        <textarea name="mensagem" class="mensagem" placeholder="Escreva aqui..." cols="30" rows="10"></textarea>
+        <p class="detalhe_envio">Enviando para <span class="contato_envio">Todos</span> <span class="tipo_envio"></span> </p>
+        <ion-icon onclick="enviaMensagem()" name="paper-plane-outline"></ion-icon>
+      </footer>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

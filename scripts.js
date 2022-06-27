@@ -3,7 +3,6 @@ let mensagem;
 let lista_mensagens = [];
 
 function obtemNome() {
-  alert(document.querySelector(".nome_entrada").value);
   if (document.querySelector(".nome_entrada").value === "") {
     alert("Por favor, insira um nome válido");
   } else if (!nome) {
@@ -27,6 +26,10 @@ function verificaNome() {
 
 function nomeValido(entrou) {
   mudaTela1();
+  chamaManterConexao();
+}
+
+function chamaManterConexao() {
   IDInterval = setInterval(mantemConexao, 5000);
 }
 
@@ -38,12 +41,13 @@ function nomeInvalido(naoEntrou) {
 function mudaTela1() {
   document.querySelector(".tela1").classList.add("escondido");
   document.querySelector(".tela2").classList.remove("escondido");
-  setTimeout(mudaTela2, 3000);
+  setTimeout(mudaTela2, 2000);
 }
 
 function mudaTela2() {
   document.querySelector(".tela_inicial").classList.add("escondido");
   document.querySelector(".pagina").classList.remove("escondido");
+  document.querySelector(".mensagem_container").classList.remove("escondido");
 }
 
 function mantemConexao() {
@@ -126,9 +130,9 @@ function enviaMensagem() {
   if (document.querySelector(".mensagem").value !== "") {
     const envio = {
       from: nome.name,
-      to: "Todos",
+      to: contato,
       text: document.querySelector(".mensagem").value,
-      type: "message",
+      type: tipo_msg,
     };
 
     const promise = axios.post(
@@ -140,6 +144,9 @@ function enviaMensagem() {
     document.querySelector(".mensagem").value = "";
   } else {
     alert("Você não pode enviar uma mensagem vazia!");
+  }
+  if (contato === "Todos" && tipo_msg === "private_message") {
+    alert("Não é possível enviar uma mensagem reservada para Todos!");
   }
 }
 
@@ -171,5 +178,80 @@ function obtemParticipantes() {
   promise.then(listaParticipantes);
   promise.catch();
 }
+let numero_participantes = 0;
+function listaParticipantes(participantes) {
+  numero_participantes = participantes.data.length;
+  document.querySelector(
+    ".lista_participantes"
+  ).innerHTML = `<div onclick="check_contato(this)" class="sem_check">
+  <ion-icon name="people"></ion-icon>
+  <span>Todos</span>
+  <ion-icon class="checkmark" name="checkmark"></ion-icon>
+</div>`;
+  for (i = 0; i < participantes.data.length; i++) {
+    document.querySelector(
+      ".lista_participantes"
+    ).innerHTML += `<div onclick="check_contato(this)" class="sem_check">
+    <ion-icon name="person-circle"></ion-icon> <span>${participantes.data[i].name}</span>
+    <ion-icon class="checkmark" name="checkmark"></ion-icon>
+  </div>`;
+  }
+}
+let contato = "Todos";
+function check_contato(element) {
+  for (i = 1; i < numero_participantes + 1; i++) {
+    document
+      .querySelector(`.lista_participantes div:nth-child(${i + 1})`)
+      .classList.add("sem_check");
+  }
+  contato = element.childNodes[3].innerHTML;
+  document.querySelector(".contato_envio").innerHTML = contato;
+  element.classList.toggle("sem_check");
+}
 
-function listaParticipantes(participantes) {}
+let tipo_msg = "message";
+function checkVisibilidade(element) {
+  document.querySelector(".publico div").classList.add("sem_check");
+  document.querySelector(".reservadamente div").classList.add("sem_check");
+  element.classList.toggle("sem_check");
+  console.log(element.classList);
+  if (
+    String(document.querySelector(".reservadamente div").classList) ===
+    "sem_check"
+  ) {
+    tipo_msg = "message";
+    document.querySelector(".tipo_envio").innerHTML = "";
+  } else if (
+    String(document.querySelector(".publico div").classList) === "sem_check"
+  ) {
+    tipo_msg = "private_message";
+    document.querySelector(".tipo_envio").innerHTML = "(Reservadamente)";
+  }
+  checkReservadamente();
+}
+
+function checkReservadamente() {
+  //Não permite enviar uma mensagem Reservada para 'Todos'
+  if (contato === "Todos") {
+    document.querySelector(".tipo_envio").innerHTML = "";
+  }
+}
+
+function abreSideBar() {
+  document.querySelector("body").classList.add("sem_overflow");
+  document.querySelector(".menu_envio").classList.add("com_overflow");
+  document.querySelector(".menu_envio").classList.remove("escondido");
+  document.querySelector(".pagina").classList.add("meia_opacidade");
+  document.querySelector(".mensagem_container").classList.add("meia_opacidade");
+  console.log("cliquei na abre");
+}
+
+function fechaSideBar() {
+  document.querySelector("body").classList.remove("sem_overflow");
+  document.querySelector(".menu_envio").classList.add("escondido");
+  document.querySelector(".pagina").classList.remove("meia_opacidade");
+  document
+    .querySelector(".mensagem_container")
+    .classList.remove("meia_opacidade");
+  console.log("cliquei na fecha");
+}
