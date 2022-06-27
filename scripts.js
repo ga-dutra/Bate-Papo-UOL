@@ -1,31 +1,49 @@
 let nome;
 let mensagem;
 let lista_mensagens = [];
+
 function obtemNome() {
-  if (!nome) {
+  alert(document.querySelector(".nome_entrada").value);
+  if (document.querySelector(".nome_entrada").value === "") {
+    alert("Por favor, insira um nome válido");
+  } else if (!nome) {
     nome = {
-      name: String(prompt("Qual o seu nome?")),
+      name: document.querySelector(".nome_entrada").value,
     };
+    verificaNome();
   } else {
-    nome = {
-      name: String(prompt("Entre com um nome diferente:")),
-    };
+    verificaNome();
   }
 }
-obtemNome();
-verificaNome();
+let IDInterval;
 function verificaNome() {
   const nomeTeste = axios.post(
     "https://mock-api.driven.com.br/api/v6/uol/participants",
     nome
   );
-
   nomeTeste.then(nomeValido);
   nomeTeste.catch(nomeInvalido);
 }
 
 function nomeValido(entrou) {
-  const IDInterval = setInterval(mantemConexao, 5000);
+  mudaTela1();
+  IDInterval = setInterval(mantemConexao, 5000);
+}
+
+function nomeInvalido(naoEntrou) {
+  alert("O nome digitado já está em uso! Por favor, digite um nome diferente.");
+  recarregaPagina();
+}
+
+function mudaTela1() {
+  document.querySelector(".tela1").classList.add("escondido");
+  document.querySelector(".tela2").classList.remove("escondido");
+  setTimeout(mudaTela2, 3000);
+}
+
+function mudaTela2() {
+  document.querySelector(".tela_inicial").classList.add("escondido");
+  document.querySelector(".pagina").classList.remove("escondido");
 }
 
 function mantemConexao() {
@@ -33,12 +51,6 @@ function mantemConexao() {
     "https://mock-api.driven.com.br/api/v6/uol/status",
     nome
   );
-}
-
-function nomeInvalido(naoEntrou) {
-  alert("O nome digitado já está em uso!");
-  obtemNome();
-  verificaNome();
 }
 
 function carregaMensagens() {
@@ -50,7 +62,7 @@ function carregaMensagens() {
 carregamento3Segundos();
 
 function carregamento3Segundos(mensagem) {
-  const IDInterval = setInterval(carregaMensagens, 3000);
+  const IDInterval2 = setInterval(carregaMensagens, 3000);
 }
 
 let a = "";
@@ -137,6 +149,27 @@ function recarregaPagina() {
 
 document.addEventListener("keypress", function (e) {
   if (e.key === "Enter") {
-    enviaMensagem();
+    if (
+      String(document.querySelector(".pagina").classList) === "pagina escondido"
+    ) {
+      obtemNome();
+    } else if (
+      String(document.querySelector(".tela_inicial").classList) ===
+      "tela_inicial escondido"
+    ) {
+      enviaMensagem();
+    }
   }
 });
+
+obtemParticipantes();
+const interval_participantes = setInterval(obtemParticipantes, 10 * 1000);
+function obtemParticipantes() {
+  const promise = axios.get(
+    "https://mock-api.driven.com.br/api/v6/uol/participants"
+  );
+  promise.then(listaParticipantes);
+  promise.catch();
+}
+
+function listaParticipantes(participantes) {}
