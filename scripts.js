@@ -85,7 +85,7 @@ function renderizaMensagens(mensagens) {
     }
     i++;
   }
-  console.log(mensagens);
+
   // Renderiza na tela as mensagens
   for (i = 0; i < lista_mensagens.length; i++) {
     document.querySelector(".conteudo").innerHTML += lista_mensagens[i];
@@ -93,7 +93,7 @@ function renderizaMensagens(mensagens) {
   document.querySelector(
     ".conteudo"
   ).innerHTML += `<div class="completa_margem"></div>`;
-  // scrollUltimaMsg();
+  scrollUltimaMsg();
 }
 
 function scrollUltimaMsg() {
