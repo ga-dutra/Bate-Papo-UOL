@@ -49,9 +49,8 @@ function carregaMensagens() {
 }
 carregamento3Segundos();
 
-carregaMensagens(); // APAGAR DEDPOIS - TESTE
 function carregamento3Segundos(mensagem) {
-  const IDInterval = setInterval(carregaMensagens, 553000);
+  const IDInterval = setInterval(carregaMensagens, 3000);
 }
 
 let a = "";
