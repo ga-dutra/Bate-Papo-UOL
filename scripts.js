@@ -28,10 +28,15 @@ function nomeValido(entrou) {
   const IDInterval = setInterval(mantemConexao, 5000);
 }
 
+function mantemConexao() {
+  const promise = axios.post(
+    "https://mock-api.driven.com.br/api/v6/uol/status",
+    nome
+  );
+}
+
 function nomeInvalido(naoEntrou) {
   alert("O nome digitado já está em uso!");
-  const statusCode = naoEntrou.response.status;
-  alert(statusCode);
   obtemNome();
   verificaNome();
 }
@@ -44,24 +49,29 @@ function carregaMensagens() {
 }
 carregamento3Segundos();
 
+carregaMensagens(); // APAGAR DEDPOIS - TESTE
 function carregamento3Segundos(mensagem) {
-  const IDInterval = setInterval(carregaMensagens, 3000);
+  const IDInterval = setInterval(carregaMensagens, 553000);
 }
 
 let a = "";
 let b = "";
 let auxiliar = 0;
+
 function renderizaMensagens(mensagens) {
   document.querySelector(".conteudo").innerHTML = "";
   lista_mensagens = [];
 
   // Alimenta array lista_msg
-
-  for (i = 0; i < 100; i++) {
+  let i = 0;
+  while (lista_mensagens.length < 100) {
+    if (!mensagens.data[i]) {
+      break;
+    }
     if (mensagens.data[i].type === "status") {
       mensagem = `<li class="msg_status">
       <div>
-      <span class="horario">(${mensagens.data[i].time})</span><span class="espaço">l</span><span class="usuario">${mensagens.data[i].from}</span><span class="espaço">l</span> entra na sala... </div></li>`;
+      <span class="horario">(${mensagens.data[i].time})</span><span class="espaço">l</span><span class="usuario">${mensagens.data[i].from}</span><span class="espaço">l</span><span class="message">${mensagens.data[i].text}</span></div></li>`;
       lista_mensagens.push(mensagem);
     }
     if (mensagens.data[i].type === "message") {
@@ -72,12 +82,11 @@ function renderizaMensagens(mensagens) {
       mensagem = `<li class="msg_reservada"><div><span class="horario">(${mensagens.data[i].time})</span><span class="espaço">l</span><span class="usuario">${mensagens.data[i].from}</span><span class="espaço">l</span>reservadamente para<span class="espaço">l</span><span class="usuario">${mensagens.data[i].to}</span><span>:</span><span class="espaço">l</span><span class="message">${mensagens.data[i].text}</span> </div></li>`;
       if (mensagens.data[i].to === nome.name) {
         lista_mensagens.push(mensagem);
-      } else {
-        i--;
       }
     }
+    i++;
   }
-
+  console.log(mensagens);
   // Renderiza na tela as mensagens
   for (i = 0; i < lista_mensagens.length; i++) {
     document.querySelector(".conteudo").innerHTML += lista_mensagens[i];
@@ -85,7 +94,7 @@ function renderizaMensagens(mensagens) {
   document.querySelector(
     ".conteudo"
   ).innerHTML += `<div class="completa_margem"></div>`;
-  scrollUltimaMsg();
+  // scrollUltimaMsg();
 }
 
 function scrollUltimaMsg() {
@@ -100,13 +109,6 @@ function scrollUltimaMsg() {
   if (a !== b) {
     ultima_msg.scrollIntoView();
   }
-}
-
-function mantemConexao() {
-  const promise = axios.post(
-    "https://mock-api.driven.com.br/api/v6/uol/status",
-    nome
-  );
 }
 
 function enviaMensagem() {
@@ -124,6 +126,7 @@ function enviaMensagem() {
     );
     promise.then(carregaMensagens);
     promise.catch(recarregaPagina);
+    document.querySelector(".mensagem").value = "";
   } else {
     alert("Você não pode enviar uma mensagem vazia!");
   }
