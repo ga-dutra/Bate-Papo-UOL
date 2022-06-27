@@ -11,7 +11,7 @@ body {
   height: 80px;
   background-color: #ffffff;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.05);
-  z-index: 10;
+  z-index: 1;
 }
 
 .topo img {
@@ -32,12 +32,11 @@ footer {
   width: 100vw;
   height: 80px;
   background-color: #ffffff;
-  z-index: 5;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-top: 200px;
-  z-index: 13;
+  z-index: 3;
 }
 
 footer textarea {
@@ -110,10 +109,6 @@ footer ion-icon:hover {
   width: 100vw;
 }
 
-.margem_ultima {
-  margin-bottom: 100px;
-}
-
 .msg_status {
   background-color: #dcdcdc;
 }
@@ -149,7 +144,7 @@ footer ion-icon:hover {
   font-weight: 400;
   font-family: "Roboto", sans-serif;
   box-sizing: border-box;
-  z-index: 14;
+  z-index: 4;
 }
 
 .menu_envio ion-icon {
@@ -286,6 +281,7 @@ div .checkmark {
 .sem_check ion-icon:nth-last-child(1) {
   display: none;
 }
+
 .pagina {
   position: relative;
 }
@@ -298,11 +294,5 @@ div .checkmark {
   left: 0;
   width: calc(100vw - 259px);
   height: 100%;
-  z-index: 11;
-}
-
-.opcao_todos {
-  height: 100px;
-  width: 500px;
-  background-color: red;
+  z-index: 2;
 }

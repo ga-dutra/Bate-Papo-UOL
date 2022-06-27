@@ -41,7 +41,7 @@ function nomeInvalido(naoEntrou) {
 function mudaTela1() {
   document.querySelector(".tela1").classList.add("escondido");
   document.querySelector(".tela2").classList.remove("escondido");
-  setTimeout(mudaTela2, 2000);
+  setTimeout(mudaTela2, 3000);
 }
 
 function mudaTela2() {
@@ -164,10 +164,16 @@ document.addEventListener("keypress", function (e) {
       String(document.querySelector(".tela_inicial").classList) ===
       "tela_inicial escondido"
     ) {
+      setTimeout(zeraTexto, 10);
       enviaMensagem();
     }
   }
 });
+
+function zeraTexto() {
+  //Função de zerar o input após uma mensagem ser enviada
+  document.querySelector(".mensagem").value = "";
+}
 
 obtemParticipantes();
 const interval_participantes = setInterval(obtemParticipantes, 10 * 1000);
@@ -214,7 +220,6 @@ function checkVisibilidade(element) {
   document.querySelector(".publico div").classList.add("sem_check");
   document.querySelector(".reservadamente div").classList.add("sem_check");
   element.classList.toggle("sem_check");
-  console.log(element.classList);
   if (
     String(document.querySelector(".reservadamente div").classList) ===
     "sem_check"
@@ -243,7 +248,6 @@ function abreSideBar() {
   document.querySelector(".menu_envio").classList.remove("escondido");
   document.querySelector(".pagina").classList.add("meia_opacidade");
   document.querySelector(".mensagem_container").classList.add("meia_opacidade");
-  console.log("cliquei na abre");
 }
 
 function fechaSideBar() {
@@ -253,5 +257,4 @@ function fechaSideBar() {
   document
     .querySelector(".mensagem_container")
     .classList.remove("meia_opacidade");
-  console.log("cliquei na fecha");
 }
